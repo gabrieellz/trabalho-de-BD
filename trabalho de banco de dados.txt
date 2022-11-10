@@ -1,0 +1,108 @@
+create table users(
+id_user int primary key auto_increment,
+name varchar (40) not null,
+email varchar (40) not null unique,
+password varchar (20) not null unique
+);
+
+select * from users;
+
+create table posts (
+id_post int primary key auto_increment,
+title varchar(20),
+description text,
+id_user int,
+foreign key (id_user) references users(id_user)
+);
+
+select * from posts;
+select title, description, id_user from posts;
+
+create table roles(
+id_role int primary key auto_increment,
+name varchar (16) not null
+);
+
+create table user_roles(
+id_user int,
+id_role int,
+foreign key(id_user) references users(id_user),
+foreign key(id_role) references roles(id_role)
+);
+
+insert into roles 
+(name)
+values
+("admin"),
+("client"),
+("employee");
+
+insert into users 
+(name, email, password)
+values
+("gabriel lindo", "gabriel@gmail.com", "123"),
+("hugo chagas", "hugoch@gmail.com", "456"),
+("hyvina", "hyvina@gmail.com", "789"),
+("lyedson", "lyedson@gmail.com", "101"),
+("luiza", "luiza@gmail.com", "131");
+
+insert into posts
+(title, description, id_user)
+values
+('luiza', 'linda', 1),
+('jessica', 'ate gosto', 1),
+('rihanna', 'sei nao ein', 2),
+('karolina', 'saudades', 2),
+('hyvina', 'fofa', 3),
+('daniel', 'engraçado', 3),
+('aryel', 'aluno que inspira', 4),
+('kaua', 'muito inteligente, fico mal', 4),
+('marie nadila', 'das 15 uvas', 5),
+('hellen rayssa', 'da silva devs', 5);
+
+insert into user_roles (id_user, id_role) values
+('1', '1'),
+('2', '3'),
+('3', '2'),
+('4', '1'),
+('5', '1');
+
+select 
+posts.id_post,
+posts.title,
+posts.description,
+posts.id_user,
+users.id_user,
+users.name from posts inner join users on posts.id_user = users.id_user
+where users.id_user = 3;
+
+select 
+posts.id_post,
+posts.title,
+posts.description,
+posts.id_user,
+users.id_user,
+users.name from posts inner join users on posts.id_user = users.id_user
+where users.id_user = 5;
+
+delete from posts 
+where id_post = 4;
+delete from user_roles 
+where id_user = 2;
+delete from posts 
+where id_user = 2;
+delete from users
+where id_user = 2;
+
+update posts 
+set title = 'soy lindo',
+description = 'pois perai'
+where id_post = 1;
+
+select 
+users.id_user,
+users.name,
+roles.name from user_roles
+join users on user_roles.id_user = users.id_user
+join roles on roles.id_role = user_roles.id_role
+where roles.name = "admin";
